@@ -1,0 +1,17 @@
+<md-toolbar class="md-hue-2">
+  <div class="md-toolbar-tools">
+    <h2>
+      <span><md-icon>sync</md-icon> SyncPipes</span>
+    </h2>
+    <md-button ui-sref="home">Dashboard</md-button>
+    <md-button ui-sref="configurations.list">Service Configurations</md-button>
+    <md-button ui-sref="mappings.list">Mappings</md-button>
+    <md-button ui-sref="pipelines.list">Pipelines</md-button>
+    <md-button ui-sref="executions.list">Pipeline Executions</md-button>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="ctrl.showUrlDialog($event)">
+      <md-icon>settings_remote</md-icon>
+      <md-tooltip>Change server endpoint</md-tooltip>
+    </md-button>
+  </div>
+</md-toolbar>

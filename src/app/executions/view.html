@@ -1,0 +1,36 @@
+<md-content layout="column" layout-padding flex>
+  <div class="md-whiteframe-1dp">
+
+    <h1 class="md-headline">{{ ctrl.execution.pipeline.name }}</h1>
+    <h2 class="md-subhead"><strong>Status</strong>: {{ ctrl.execution.status }}</h2>
+    <h2 class="md-subhead"><strong>Started</strong>: {{ ctrl.execution.started | amDateFormat:'L LTS' }}</h2>
+    <h2 class="md-subhead"><strong>Finished</strong>: {{ (ctrl.execution.finished | amDateFormat:'L LTS') || 'N/A' }}</h2>
+
+    <!-- filter -->
+    <md-select ng-model="ctrl.filterValue" multiple placeholder="Filter by level">
+      <md-option ng-value="level" ng-repeat="(level, name) in ctrl.filters">{{name}}</md-option>
+    </md-select>
+
+    <div class="log">
+      <div class="entry" layout-padding ng-repeat="entry in ctrl.execution.log | inArray:ctrl.filterValue:'level' " ng-class="ctrl.getLevel(entry.level, true)">
+        <h3 ng-class="ctrl.getLevel(entry.level, true)"><span class="level">{{ ctrl.getLevel(entry.level) }}</span> <span class="date">{{ entry.date | amDateFormat:'L LTS' }}</span></h3>
+        <div layout="row" layout-align="center stretch">
+          <div class="formatted" flex>
+            <h4>Message</h4>
+            <pre>{{ entry.message }}</pre>
+          </div>
+          <div class="formatted" flex>
+            <h4>Context</h4>
+            <pre>{{ entry.context | json  }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</md-content>
+
+
+
+
+

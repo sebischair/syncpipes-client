@@ -1,0 +1,37 @@
+<md-content layout="column" layout-padding>
+  <div layout="row">
+    <div>
+      <h3 class="md-headline">Service configurations</h3>
+    </div>
+    <div flex layout layout-align="end center">
+      <md-button class="md-accent" ng-click="ctrl.showFormDialog($event)">Create new configuration</md-button>
+    </div>
+  </div>
+  <!-- list existing pipelines -->
+  <div layout="row" layout-wrap>
+    <div flex="33" ng-repeat="(service, configs) in ctrl.configurations">
+      <md-card>
+        <md-card-header>
+          <md-card-header-text>
+            <span class="md-title">{{ service }}</span>
+            <span class="md-subhead">Available configurations</span>
+          </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+          <md-list>
+            <md-list-item ng-repeat="config in configs" ng-click="ctrl.showFormDialog($event, config)">
+              <p>{{ config.name }}</p>
+              <md-icon class="md-secondary" ng-click="ctrl.removeConfig(config)" aria-label="Delete config">delete</md-icon>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
+</md-content>
+
+
+
+
+
+

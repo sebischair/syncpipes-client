@@ -1,0 +1,93 @@
+$status-failed:   rgba(255, 0, 0, .2);
+$status-finished: #CCFFCD;
+$status-running:  #A4D0ED;
+$status-queued:   #F1CFFA;
+
+.executions {
+  tr.failed td,
+  md-list-item.failed  {
+    background-color: $status-failed;
+  }
+
+  tr.finished td,
+  md-list-item.finished {
+    background-color: $status-finished;
+  }
+
+  tr.running td,
+  md-list-item.running {
+    background-color: $status-running;
+  }
+
+  tr.queued td,
+  md-list-item.queued {
+    background-color: $status-queued;
+  }
+}
+
+
+$level-debug:   #6E9EB8;
+$level-info:    #00A6FF;
+$level-warning: #FFAF24;
+$level-error:   #F52727;
+$level-fatal:    #8F1010;
+
+.log {
+  .entry {
+    border: 1px solid #D1D1D1;
+    border-left-width: 10px;
+    &.debug {
+      border-left-color: $level-debug;
+    }
+    &.info {
+      border-left-color: $level-info;
+    }
+    &.warning {
+      border-left-color: $level-warning;
+    }
+    &.error {
+      border-left-color: $level-error;
+    }
+    &.fatal {
+      border-left-color: $level-fatal;
+    }
+
+    div.formatted {
+      pre {
+        margin: 10px;
+        padding: 10px;
+        font-size: .9em;
+        white-space: pre-wrap;
+        background-color: #F5F5F5;
+        border: 1px solid #DBDBDB;
+      }
+    }
+
+    h3 {
+      margin: 0;
+      &.debug {
+        color: $level-debug;
+      }
+      &.info {
+        color: $level-info;
+      }
+      &.warning {
+        color: $level-warning;
+      }
+      &.error {
+        color: $level-error;
+      }
+      &.fatal {
+        color: $level-fatal;
+      }
+      .date {
+        font-weight: normal;
+      }
+    }
+
+    h4 {
+      margin: 0;
+    }
+
+  }
+}

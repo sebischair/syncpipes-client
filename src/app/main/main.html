@@ -1,0 +1,54 @@
+<md-content layout="column" flex>
+  <div layout="row">
+
+    <md-card flex >
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">Loaded services</span>
+          <span class="md-subhead">Click on a row to open the schema visualizer or on a button on the right to view the JSON-Schema code.</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content>
+        <md-list>
+          <md-list-item ng-repeat="service in ctrl.services" ng-click="ctrl.showSchemaVisualizerDialog($event, service)">
+            <p>{{ service.name }}</p>
+            <md-icon class="md-secondary" ng-click="ctrl.showSchemaCodeDialog($event, service)" aria-label="Raw schema">code</md-icon>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+
+    <md-card flex>
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">Last executed pipelines</span>
+          <span class="md-subhead">Five latest executed pipelines, click on a row for details.</span>
+        </md-card-header-text>
+      </md-card-header>
+      <md-card-content style="overflow-y: auto">
+        <md-list class="executions">
+          <md-list-item ng-repeat="execution in ctrl.executions" ng-class="execution.status.toLowerCase()" class="md-2-line" ui-sref="executions.view({id: execution._id})">
+            <div class="md-list-item-text">
+              <h3>({{execution.status}}) {{ execution.pipeline.name }}</h3>
+              <p>Started: {{execution.started | amDateFormat:'L LTS'}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+    </md-card>
+
+  </div>
+<!--
+  <div layout="column" flex layout-align="center stretch" style="height: 400px;">
+    <div flex style="border:1px solid red" ng-repeat="service in ctrl.services">
+    </div>
+  </div>
+-->
+
+</md-content>
+
+
+
+
+
+

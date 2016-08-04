@@ -1,0 +1,140 @@
+<md-content layout="column" layout-padding flex>
+  <form name="mappingForm" ng-submit="ctrl.save()">
+    <div layout-margin layout="column">
+      <!-- Name -->
+      <div class="md-whiteframe-1dp" layout-padding>
+        <md-input-container class="md-block">
+          <label>Name</label>
+          <input ng-model="ctrl.mapping.name" required>
+        </md-input-container>
+      </div>
+    </div>
+    <!-- schema -->
+    <div layout="row" layout-margin>
+      <div class="md-whiteframe-1dp" layout="column" flex layout-padding>
+        <md-input-container class="md-block">
+          <label>Select a extractor service</label>
+          <md-select name="extractorService" ng-model="ctrl.mapping.extractorService" ng-required="!ctrl.mapping.extractorService">
+            <md-option ng-repeat="service in ctrl.services | filter:{type: 'extractor'}" value="{{ service.name }}">{{ service.name }}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-select ng-if="ctrl.mapping.extractorService != null" name="extractorServiceConfig" ng-model="ctrl.mapping.extractorServiceConfig" ng-required="!ctrl.mapping.extractorServiceConfig">
+            <md-option ng-repeat="config in ctrl.getConfigs(ctrl.mapping.extractorService)" value="{{ config.name }}">{{ config.name }}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <sp-json-schema-visualizer
+          ng-if="ctrl.mapping.extractorService != null && ctrl.mapping.extractorServiceConfig != null"
+          id="ctrl.mapping.extractorService"
+          style="height: 500px;"
+          selected-path="ctrl.extractorPath"
+          schema-url="ctrl.getSchemaUrl(ctrl.mapping.extractorService, ctrl.mapping.extractorServiceConfig)"></sp-json-schema-visualizer>
+
+      </div>
+      <div class="md-whiteframe-1dp" layout="column" flex layout-padding>
+        <md-input-container class="md-block">
+          <label>Select a loader service</label>
+          <md-select name="loaderService" ng-model="ctrl.mapping.loaderService" ng-required="!ctrl.mapping.loaderService">
+            <md-option ng-repeat="service in ctrl.services | filter:{type: 'loader'}" ng-value="service.name">{{ service.name }}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <sp-json-schema-visualizer
+          ng-if="ctrl.mapping.loaderService != null"
+          style="height: 500px;"
+          id="ctrl.mapping.loaderService"
+          selected-path="ctrl.loaderPath"
+          schema-url="ctrl.getSchemaUrl(ctrl.mapping.loaderService)"></sp-json-schema-visualizer>
+
+      </div>
+    </div>
+    <!-- Mapping -->
+    <div layout="column" layout-margin>
+      <div class="md-whiteframe-1dp" layout-padding>
+        <div ng-form="groupForm" class="mapping-group md-whiteframe-1dp" ng-repeat="(groupIndex, group) in ctrl.mapping.groups">
+          <!-- Group prefix -->
+          <md-input-container class="md-block">
+            <label>Target Prefix</label>
+            <input ng-model="group.toPrefix" name="prefix" pattern="[\-_a-zA-Z0-9\/]+" required>
+            <div ng-messages="groupForm.prefix.$error" multiple>
+              <div ng-message="pattern">
+                To prefix may only contain the following chars a-z, A-Z, 0-9, -, _, /
+              </div>
+              <div ng-message="required">
+                To prefix is required
+              </div>
+            </div>
+          </md-input-container>
+          <div class="mapping-properties">
+            <div ng-form="propertyForm" class="mapping-property md-whiteframe-1dp" ng-repeat="(propertyIndex, property) in group.properties">
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label>Source Path</label>
+                  <input ng-model="property.fromPath" name="fromPath" pattern="[\-_a-zA-Z0-9\/]+" required>
+                  <div ng-messages="propertyForm.fromPath.$error" multiple>
+                    <div ng-message="pattern">
+                      To path may only contain the following chars a-z, A-Z, 0-9, -, _, /
+                    </div>
+                    <div ng-message="required">
+                      To Path is required
+                    </div>
+                  </div>
+                </md-input-container>
+                <md-input-container flex>
+                  <label>Target Path</label>
+                  <input ng-model="property.toPath" name="toPath" pattern="[\-_a-zA-Z0-9\/\$]+" required>
+                  <div ng-messages="propertyForm.toPath.$error" multiple>
+                    <div ng-message="pattern">
+                      To path may only contain the following chars a-z, A-Z, 0-9, -, _, /, $
+                    </div>
+                    <div ng-message="required">
+                      To Path is required
+                    </div>
+                  </div>
+                </md-input-container>
+                <!-- Foreign key -->
+                <md-input-container flex>
+                  <label>Foreign Key</label>
+                  <input ng-model="property.foreignKey" name="foreignKey" pattern="[\-_a-zA-Z0-9\/]+">
+                  <div ng-messages="propertyForm.foreignKey.$error">
+                    <div ng-message="pattern">
+                      Foreign key path may only contain the following chars a-z, A-Z, 0-9, -, _, /
+                    </div>
+                  </div>
+                </md-input-container>
+                <!-- Flags -->
+                <md-input-container layout layout-align="center center">
+                  <md-checkbox ng-model="property.uniqueKey" aria-label="uniqueKey">Unique Key</md-checkbox>
+                </md-input-container>
+                <md-input-container layout layout-align="center center">
+                  <md-checkbox ng-model="property.primaryKey" aria-label="uniqueKey">Primary Key</md-checkbox>
+                </md-input-container>
+                <!-- Delete -->
+                <div layout layout-align="center center">
+                  <md-button ng-click="ctrl.deleteProperty(group, propertyIndex)" class="md-icon-button md-warn"><md-icon>delete</md-icon></md-button>
+                </div>
+              </div>
+            </div>
+            <md-button ng-click="ctrl.addProperty(group)">Add Property</md-button>
+            <md-button ng-click="ctrl.deleteGroup(groupIndex)" class="md-warn">Delete Group</md-button>
+          </div>
+        </div>
+        <md-button ng-click="ctrl.addGroup()">Add Group</md-button>
+      </div>
+    </div>
+    <div layout="column" layout-margin>
+      <div class="md-whiteframe-1dp" layout-padding layout layout-align="end center">
+        <md-button class="md-warn" ng-if="ctrl.editMode" ng-click="ctrl.remove()">Delete</md-button>
+        <md-button type="submit" ng-disabled="mappingForm.$invalid">Save</md-button>
+      </div>
+    </div>
+  </form>
+</md-content>
+
+
+
+
+
+

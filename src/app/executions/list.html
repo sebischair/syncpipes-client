@@ -1,0 +1,47 @@
+<md-content layout="column" layout-padding flex>
+  <div class="md-whiteframe-1dp">
+    <md-toolbar class="md-table-toolbar md-accent">
+      <div class="md-toolbar-tools">
+        <span>Pipeline Executions</span>
+      </div>
+    </md-toolbar>
+
+    <!-- exact table from live demo -->
+    <md-table-container>
+      <table md-table md-progress="ctrl.promise" class="executions">
+        <thead md-head md-order="ctrl.query.order" md-on-reorder="ctrl.onReorder">
+        <tr md-row>
+          <th md-column md-order-by="pipeline.name">Pipeline</th>
+          <th md-column md-order-by="started">Start Time</th>
+          <th md-column md-order-by="finished">Finish time</th>
+          <th md-column>Duration</th>
+          <th md-column md-order-by="status">Status</th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-repeat="execution in ctrl.executions" ng-class="execution.status.toLowerCase()">
+          <td md-cell>{{execution.pipeline.name}}</td>
+          <td md-cell>{{execution.started | amDateFormat:'L LTS'}}</td>
+          <td md-cell>{{ (execution.finished | amDateFormat:'L LTS') || 'N/A'}}</td>
+          <td md-cell>{{ ctrl.getDuration(execution) }}</td>
+          <td md-cell>{{execution.status || 'N/A'}}</td>
+          <td md-cell>
+            <md-button class="md-icon-button" ui-sref="executions.view({id: execution._id})">
+              <md-icon>assessment</md-icon>
+              <md-tooltip>Logs</md-tooltip>
+            </md-button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="ctrl.query.limit" md-limit-options="[25, 50, 100, 250]" md-page="ctrl.query.page" md-total="{{ ctrl.executions.meta.total }}" md-on-paginate="ctrl.onPaginate" md-page-select></md-table-pagination>
+
+  </div>
+</md-content>
+
+
+
+
+

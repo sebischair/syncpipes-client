@@ -1,0 +1,31 @@
+<div class="json-schema-visualizer">
+  <div class="zoom-controls">
+    <md-button class="md-icon-button" ng-click="zoom($event, 1)">
+      <md-icon>zoom_in</md-icon>
+      <md-tooltip>Zoom-in</md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="zoom($event, -1)">
+      <md-icon>zoom_out</md-icon>
+      <md-tooltip>Zoom-out</md-tooltip>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="reset()">
+      <md-icon>zoom_out_map</md-icon>
+      <md-tooltip>Reset</md-tooltip>
+    </md-button>
+  </div>
+
+  <div class="legend-container">
+    <div class="legend">
+      <h3 class="ui-mini">Legend</h3>
+      <hr/>
+      <div class="legend-items"></div>
+    </div>
+  </div>
+
+  <div class="target"></div>
+
+  <div class="selected-path">
+    {{ selectedPath }}
+  </div>
+
+</div>

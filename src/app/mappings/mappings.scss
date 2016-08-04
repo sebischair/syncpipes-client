@@ -1,0 +1,21 @@
+.mapping-group {
+  margin-top: 10px;
+  md-input-container {
+    margin-top: 12px;
+    margin-bottom: 0;
+  }
+  .mapping-properties {
+    .mapping-property {
+      padding: 8px;
+      margin-top: 10px;
+      md-input-container {
+        margin-top: 12px;
+        margin-bottom: 0;
+        md-checkbox {
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}
+

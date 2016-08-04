@@ -1,0 +1,17 @@
+<md-dialog aria-label="JSON-Schema visualizer" flex="90"  ng-cloak>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>JSON-Schema visualization of {{ ctrl.service.name }}</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+        <md-icon aria-label="Close dialog">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+      <sp-json-schema-visualizer style="height: 500px;" id="ctrl.service.name" schema-url="ctrl.url" layout-fill></sp-json-schema-visualizer>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <md-button ng-click="ctrl.hide()">Close</md-button>
+  </md-dialog-actions>
+</md-dialog>

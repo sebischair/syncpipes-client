@@ -1,0 +1,58 @@
+<md-content layout="column" layout-padding flex>
+  <div class="md-whiteframe-1dp">
+    <md-toolbar class="md-table-toolbar md-accent">
+      <div class="md-toolbar-tools">
+        <span>Pipelines</span>
+        <span flex></span>
+        <md-button ng-click="ctrl.showFormDialog($event)">Create new pipeline</md-button>
+      </div>
+    </md-toolbar>
+
+    <!-- exact table from live demo -->
+    <md-table-container>
+      <table md-table md-progress="ctrl.promise">
+        <thead md-head md-order="ctrl.order">
+        <tr md-row>
+          <th md-column md-order-by="name">Name</th>
+          <th md-column md-order-by="mapping.name">Mapping</th>
+          <th md-column md-order-by="extractorConfig.name">Extractor Config (Service)</th>
+          <th md-column md-order-by="loaderConfig.name">Loader Config (Service)</th>
+          <th md-column md-order-by="passive">Passive</th>
+          <th md-column md-order-by="created">Created</th>
+          <th md-column md-order-by="updated">Updated</th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-repeat="pipeline in ctrl.pipelines | orderBy: ctrl.order">
+          <td md-cell>{{pipeline.name}}</td>
+          <td md-cell><a ui-sref="mappings.edit({_id: pipeline.mapping._id})">{{pipeline.mapping.name}}</a></td>
+          <td md-cell>{{pipeline.extractorConfig.name}} ({{pipeline.mapping.extractorService}})</td>
+          <td md-cell>{{pipeline.loaderConfig.name}} ({{pipeline.mapping.loaderService}})</td>
+          <td md-cell>{{pipeline.passive ? 'Yes' : 'No' }}</td>
+          <td md-cell>{{pipeline.created | amDateFormat:'L LTS' }}</td>
+          <td md-cell>{{ (pipeline.updated | amDateFormat:'L LTS') || 'Never' }}</td>
+          <td md-cell>
+            <md-button class="md-icon-button" ng-click="ctrl.remove(pipeline)">
+              <md-icon>delete</md-icon>
+              <md-tooltip>Delete pipeline</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="ctrl.showFormDialog($event, pipeline)">
+              <md-icon>edit</md-icon>
+              <md-tooltip>Edit pipeline</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="ctrl.execute($event, pipeline)">
+              <md-icon>play_circle_filled</md-icon>
+              <md-tooltip>Execute pipeline</md-tooltip>
+            </md-button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </div>
+</md-content>
+
+
+
+
+

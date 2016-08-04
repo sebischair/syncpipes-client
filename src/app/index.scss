@@ -1,0 +1,79 @@
+/**
+ *  Do not remove the comment below. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+
+$line-gray: #dfdfdf;
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,200,100,300,500');
+
+.json-schema-svg {width: 100%;}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../../bower_components/material-design-icons/iconfont/MaterialIcons-Regular.eot'); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url('../../bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff2') format('woff2'),
+  url('../../bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff') format('woff'),
+  url('../../bower_components/material-design-icons/iconfont/MaterialIcons-Regular.ttf') format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+html {
+  font-family: 'Raleway', serif;
+}
+$loading-bar-color: #E91E63;
+
+#loading-bar {
+  .bar {
+    top: 64px;
+    background-color: $loading-bar-color;
+  }
+  .peg {
+    box-shadow: $loading-bar-color 1px 0 6px 1px;
+  }
+}
+
+#loading-bar-spinner {
+  top: 74px;
+  .spinner-icon {
+    border-top-color:  $loading-bar-color;
+    border-left-color: $loading-bar-color;
+  }
+}
+
+/**
+ *  Do not remove the comment below. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector

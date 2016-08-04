@@ -1,0 +1,52 @@
+<md-dialog flex="50" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 ng-if="!ctrl.editMode">Create a service configuration</h2>
+        <h2 ng-if="ctrl.editMode">Edit service configuration</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container>
+          <label>Select a service</label>
+          <md-select ng-model="ctrl.service" ng-model-options="{trackBy: '$value.name'}" ng-change="ctrl.onServiceChange()">
+            <md-option ng-repeat="service in ctrl.services" ng-value="service">{{ service.name }}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <p class="md-caption">If a option is disabled, the service is not configurable.</p>
+
+        <md-divider></md-divider>
+
+        <p ng-if="ctrl.service == null">Select a service to see the form.</p>
+
+        <form name="configurationForm" ng-if="ctrl.service != null">
+
+          <md-input-container class="md-block">
+            <label>Description</label>
+            <input required name="name" ng-model="ctrl.configuration.name">
+            <div ng-messages="configuration.name.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
+          </md-input-container>
+
+          <ng-form layout="column" sf-schema="ctrl.service.config" sf-form="ctrl.form" sf-model="ctrl.configuration.config"></ng-form>
+
+        </form>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="ctrl.hide()">Close</md-button>
+      <md-button ng-click="ctrl.save()" ng-disabled="configurationForm.$invalid || ctrl.service == null">Save</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+
+
+
+

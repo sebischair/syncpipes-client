@@ -1,0 +1,55 @@
+<md-dialog flex="33" ng-cloak>
+  <form name="pipelineForm">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 ng-if="!ctrl.editMode">Create a new pipeline</h2>
+        <h2 ng-if="ctrl.editMode">Edit pipeline {{ ctrl.pipeline.name }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <!-- Mapping select -->
+        <div layout="column">
+          <md-input-container flex>
+            <label>Name</label>
+            <input type="text" name="name" ng-model="ctrl.pipeline.name" required>
+          </md-input-container>
+
+          <md-input-container flex>
+            <label>Select a mapping</label>
+            <md-select name="mapping" ng-model="ctrl.mapping" ng-model-options="{trackBy: '$value._id'}" ng-change="ctrl.onMappingChange()">
+              <md-option ng-repeat="mapping in ctrl.mappings" ng-value="mapping">{{ mapping.name }}</md-option>
+            </md-select>
+          </md-input-container>
+
+          <md-input-container flex ng-if="ctrl.mapping != null">
+            <label>Select a extractor configuration</label>
+            <md-select ng-model="ctrl.pipeline.extractorConfig" name="extractorConfig" ng-required="!ctrl.pipeline.extractorConfig">
+              <md-option ng-repeat="config in ctrl.extractorConfigs" ng-value="config._id">{{ config.name }}</md-option>
+            </md-select>
+          </md-input-container>
+
+          <md-input-container flex ng-if="ctrl.mapping != null">
+            <label>Select a loader configuration</label>
+            <md-select ng-model="ctrl.pipeline.loaderConfig" name="loaderConfig" ng-required="!ctrl.pipeline.loaderConfig">
+              <md-option ng-repeat="config in ctrl.loaderConfigs" ng-value="config._id">{{ config.name }}</md-option>
+            </md-select>
+          </md-input-container>
+
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="ctrl.cancel()">Close</md-button>
+      <md-button ng-click="ctrl.save()" ng-disabled="!ctrl.pipeline.mapping || !ctrl.pipeline.loaderConfig || !ctrl.pipeline.extractorConfig || pipelineForm.name.$invalid">Save</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+
+
+
+

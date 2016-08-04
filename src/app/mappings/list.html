@@ -1,0 +1,46 @@
+<md-content layout="column" layout-padding flex>
+  <div class="md-whiteframe-1dp">
+    <md-toolbar class="md-table-toolbar md-accent">
+      <div class="md-toolbar-tools">
+        <span>Mappings</span>
+        <span flex></span>
+        <md-button ui-sref="mappings.create">Create new mapping</md-button>
+      </div>
+    </md-toolbar>
+
+    <!-- exact table from live demo -->
+    <md-table-container>
+      <table md-table md-progress="ctrl.promise">
+        <thead md-head md-order="ctrl.order">
+        <tr md-row>
+          <th md-column md-order-by="name">Name</th>
+          <th md-column md-order-by="extractorService">Extractor</th>
+          <th md-column md-order-by="loaderService">Loader</th>
+          <th md-column md-order-by="created">Created</th>
+          <th md-column md-order-by="updated">Updated</th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-repeat="mapping in ctrl.mappings | orderBy: ctrl.order">
+          <td md-cell>{{mapping.name}}</td>
+          <td md-cell>{{mapping.extractorService}}</td>
+          <td md-cell>{{mapping.loaderService}}</td>
+          <td md-cell>{{mapping.created | amDateFormat:'L LTS' }}</td>
+          <td md-cell>{{ (mapping.updated | amDateFormat:'L LTS') || 'Never' }}</td>
+          <td md-cell>
+            <md-button class="md-icon-button" ng-click="ctrl.remove(mapping)">
+              <md-icon>delete</md-icon>
+              <md-tooltip>Delete mapping</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" ui-sref="mappings.edit({id: mapping._id})">
+              <md-icon>edit</md-icon>
+              <md-tooltip>Edit mapping</md-tooltip>
+            </md-button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </div>
+
+</md-content>
