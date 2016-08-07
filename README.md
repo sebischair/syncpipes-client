@@ -2,9 +2,11 @@
 
 ## Requirements
 
-* [bower](https://bower.io/)
 * [node.js & npm](https://nodejs.org/en/)
+* [bower](https://bower.io/)
+`npm install -g bower`
 * [gulp](http://gulpjs.com/)
+`npm install --global gulp-cli`
 
 ## Installation & Running
 
