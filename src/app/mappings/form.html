@@ -19,10 +19,16 @@
           </md-select>
         </md-input-container>
 
-        <md-input-container class="md-block">
-          <md-select ng-if="ctrl.mapping.extractorService != null" name="extractorServiceConfig" ng-model="ctrl.mapping.extractorServiceConfig" ng-required="!ctrl.mapping.extractorServiceConfig">
+        <md-input-container class="md-block" ng-if="ctrl.mapping.extractorService != null">
+          <label>Select a extractor configuration</label>
+          <md-select name="extractorServiceConfig" ng-model="ctrl.mapping.extractorServiceConfig" ng-required="!ctrl.mapping.extractorServiceConfig">
             <md-option ng-repeat="config in ctrl.getConfigs(ctrl.mapping.extractorService)" value="{{ config.name }}">{{ config.name }}</md-option>
           </md-select>
+          <div ng-messages="mappingForm.$error" ng-if="ctrl.mapping.extractorService != null && ctrl.getConfigs(ctrl.mapping.extractorService).length == 0">
+            <div ng-message="required">
+              First create a new configuration for this extractor service!
+            </div>
+          </div>
         </md-input-container>
 
         <sp-json-schema-visualizer
@@ -41,12 +47,24 @@
           </md-select>
         </md-input-container>
 
+        <md-input-container class="md-block" ng-if="ctrl.mapping.loaderService != null">
+          <label>Select a loader configuration</label>
+          <md-select name="loaderServiceConfig" ng-model="ctrl.mapping.loaderServiceConfig" ng-required="!ctrl.mapping.loaderServiceConfig">
+            <md-option ng-repeat="config in ctrl.getConfigs(ctrl.mapping.loaderService)" value="{{ config.name }}">{{ config.name }}</md-option>
+          </md-select>
+          <div ng-messages="mappingForm.$error" ng-if="ctrl.mapping.loaderService != null && ctrl.getConfigs(ctrl.mapping.loaderService).length == 0">
+            <div ng-message="required">
+              First create a new configuration for this loader service!
+            </div>
+          </div>
+        </md-input-container>
+
         <sp-json-schema-visualizer
-          ng-if="ctrl.mapping.loaderService != null"
+          ng-if="ctrl.mapping.loaderService != null && ctrl.mapping.loaderServiceConfig != null"
           style="height: 500px;"
           id="ctrl.mapping.loaderService"
           selected-path="ctrl.loaderPath"
-          schema-url="ctrl.getSchemaUrl(ctrl.mapping.loaderService)"></sp-json-schema-visualizer>
+          schema-url="ctrl.getSchemaUrl(ctrl.mapping.loaderService, ctrl.mapping.loaderServiceConfig)"></sp-json-schema-visualizer>
 
       </div>
     </div>
@@ -57,7 +75,7 @@
           <!-- Group prefix -->
           <md-input-container class="md-block">
             <label>Target Prefix</label>
-            <input ng-model="group.toPrefix" name="prefix" pattern="[\-_a-zA-Z0-9\/]+" required>
+            <input ng-model="group.toPrefix" name="prefix" pattern="[\-_a-zA-Z0-9\s\/]+">
             <div ng-messages="groupForm.prefix.$error" multiple>
               <div ng-message="pattern">
                 To prefix may only contain the following chars a-z, A-Z, 0-9, -, _, /
@@ -72,7 +90,7 @@
               <div layout="row" flex>
                 <md-input-container flex>
                   <label>Source Path</label>
-                  <input ng-model="property.fromPath" name="fromPath" pattern="[\-_a-zA-Z0-9\/]+" required>
+                  <input ng-model="property.fromPath" name="fromPath" pattern="[\-_a-zA-Z0-9\s\/]+" required>
                   <div ng-messages="propertyForm.fromPath.$error" multiple>
                     <div ng-message="pattern">
                       To path may only contain the following chars a-z, A-Z, 0-9, -, _, /
@@ -84,7 +102,7 @@
                 </md-input-container>
                 <md-input-container flex>
                   <label>Target Path</label>
-                  <input ng-model="property.toPath" name="toPath" pattern="[\-_a-zA-Z0-9\/\$]+" required>
+                  <input ng-model="property.toPath" name="toPath" pattern="[\-_a-zA-Z0-9\s\/\$]+" required>
                   <div ng-messages="propertyForm.toPath.$error" multiple>
                     <div ng-message="pattern">
                       To path may only contain the following chars a-z, A-Z, 0-9, -, _, /, $
