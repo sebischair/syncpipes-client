@@ -1,0 +1,40 @@
+<md-dialog ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Upload files for the passive service</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-button ngf-select ng-model="ctrl.files" ngf-multiple="true">
+          <md-icon>attach_file</md-icon> Select files
+        </md-button>
+
+        <div layout="row" layout-sm="column" layout-align="space-around center" ng-if="ctrl.uploading">
+          <md-progress-circular md-mode="determinate" value="{{ctrl.progress}}"></md-progress-circular>
+          Uploading {{ctrl.progress}}%
+        </div>
+
+        <md-list flex ng-if="!ctrl.uploading">
+          <md-list-item class="md-2-line" ng-click="ctrl.removeFile(key)" ng-repeat="(key, f) in ctrl.files">
+            <div class="md-list-item-text">
+              <md-tooltip>Click to remove</md-tooltip>
+              <h3>{{ f.name }}</h3>
+              <p>{{ f.size | filesize }}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="ctrl.cancel()">Close</md-button>
+      <md-button ng-click="ctrl.upload()" ng-disabled="ctrl.files < 1">Upload</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

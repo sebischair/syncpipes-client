@@ -1,22 +1,52 @@
 export class MappingFormController {
-  constructor ($log, $mdToast, Restangular, $state, services, mapping, configurations) {
+  constructor ($log, $mdToast, $mdDialog, Upload, $document, Restangular, $state, services, mapping, configurations) {
     'ngInject';
     // di
+    this.$log = $log;
     this.$mdToast = $mdToast;
+    this.$mdDialog = $mdDialog;
+    this.Upload = Upload;
+    this.$document = $document;
     this.Restangular = Restangular;
     this.$state = $state;
     this.services = services;
     this.mapping = mapping;
     this.configurations = configurations;
+    this.extractorServiceType = null;
     if (!this.mapping.hasOwnProperty('groups')) {
       this.mapping.groups = [];
     }
     // edit mode
     this.editMode = angular.isString(this.mapping._id);
+    this.files = [];
+    this.loadFiles = true;
   }
 
   getSchemaUrl(serviceName, configName) {
-    return `${this.Restangular.configuration.baseUrl}/services/${serviceName}/${configName}/schema.json`;
+      return `${this.Restangular.configuration.baseUrl}/services/${serviceName}/${configName}/schema.json`;
+  }
+
+  uploadFiles($event) {
+    if (this.mapping.extractorServiceType === 1) {
+      this.loadFiles = true;
+      this.uploadUrl = `${this.Restangular.configuration.baseUrl}/services/${this.mapping.extractorService}/updateSchema`;
+      this.$mdDialog.show({
+        controller: () => this,
+        controllerAs: 'ctrl',
+        templateUrl: 'app/mappings/upload.dialog.html',
+        parent: this.$document.body,
+        targetEvent: $event,
+        clickOutsideToClose:false
+      });
+    } else {
+      this.loadFiles = false;
+    }
+  }
+
+  getExtractorServiceType() {
+    this.Restangular.one('services', this.mapping.extractorService).one('type').get().then((response) => {
+      this.mapping.extractorServiceType = response.type;
+    });
   }
 
   getConfigs(serviceName) {
@@ -85,4 +115,38 @@ export class MappingFormController {
     });
   }
 
+  /**
+   * Functions related to file upload
+   */
+  cancel() {
+    this.$mdDialog.cancel();
+  }
+
+  upload() {
+    this.uploading = true;
+    this.Upload.upload({
+        url: this.uploadUrl,
+        arrayKey: '',
+        data: {
+          data: this.files
+        }
+      })
+      .then(
+        (response) => {
+          this.$mdDialog.hide(response.data);
+          this.loadFiles = false;
+        },
+        (error) => {
+          // TODO: Handle error
+          // console.error(error);
+        },
+        (evt) => {
+          this.progress = parseInt(100.0 * evt.loaded / evt.total);
+        }
+      );
+  }
+
+  removeFile(index) {
+    this.files.splice(index, 1);
+  }
 }

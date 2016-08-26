@@ -14,14 +14,14 @@
       <div class="md-whiteframe-1dp" layout="column" flex layout-padding>
         <md-input-container class="md-block">
           <label>Select a extractor service</label>
-          <md-select name="extractorService" ng-model="ctrl.mapping.extractorService" ng-required="!ctrl.mapping.extractorService">
+          <md-select name="extractorService" ng-model="ctrl.mapping.extractorService" ng-required="!ctrl.mapping.extractorService" ng-change="ctrl.getExtractorServiceType()">
             <md-option ng-repeat="service in ctrl.services | filter:{type: 'extractor'}" value="{{ service.name }}">{{ service.name }}</md-option>
           </md-select>
         </md-input-container>
 
         <md-input-container class="md-block" ng-if="ctrl.mapping.extractorService != null">
           <label>Select a extractor configuration</label>
-          <md-select name="extractorServiceConfig" ng-model="ctrl.mapping.extractorServiceConfig" ng-required="!ctrl.mapping.extractorServiceConfig">
+          <md-select name="extractorServiceConfig" ng-model="ctrl.mapping.extractorServiceConfig" ng-required="!ctrl.mapping.extractorServiceConfig" ng-change="ctrl.uploadFiles()">
             <md-option ng-repeat="config in ctrl.getConfigs(ctrl.mapping.extractorService)" value="{{ config.name }}">{{ config.name }}</md-option>
           </md-select>
           <div ng-messages="mappingForm.$error" ng-if="ctrl.mapping.extractorService != null && ctrl.getConfigs(ctrl.mapping.extractorService).length == 0">
@@ -32,7 +32,7 @@
         </md-input-container>
 
         <sp-json-schema-visualizer
-          ng-if="ctrl.mapping.extractorService != null && ctrl.mapping.extractorServiceConfig != null"
+          ng-if="ctrl.mapping.extractorService != null && ctrl.mapping.extractorServiceConfig != null && ctrl.loadFiles === false"
           id="ctrl.mapping.extractorService"
           style="height: 500px;"
           selected-path="ctrl.extractorPath"
