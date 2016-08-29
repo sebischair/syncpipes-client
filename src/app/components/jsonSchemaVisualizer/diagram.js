@@ -53,8 +53,8 @@ export class Diagram {
    * Click handler for the zoom control
    */
   zoomClick(event, direction = 1) {
-    var clicked     = event.currentTarget,
-        factor      = 0.2,
+    //clicked     = event.currentTarget,
+    var factor      = 0.2,
         target_zoom = 1,
         center      = [ this.viewerWidth / 2, this.viewerHeight / 2 ],
         zl          = this.zoomListener,
@@ -277,10 +277,10 @@ export class Diagram {
                         .classed('deprecated', function (d) {
                           return d.deprecated;
                         })
-                        .attr('id', (d, i) => {
+                        .attr('id', (d) => {
                           return `n-${this.id}-${d.id}`;
                         })
-                        .attr('transform', function (d) {
+                        .attr('transform', function () {
                           return 'translate(' + source.y0 + ',' + source.x0 + ')';
                         });
 
@@ -295,7 +295,7 @@ export class Diagram {
              });
 
     nodeEnter.append('text')
-             .attr('x', function (d) {
+             .attr('x', function () {
                return 10;
                //                return d.children || d._children ? -10 : 10;
              })
@@ -306,7 +306,7 @@ export class Diagram {
              .classed('abstract', function (d) {
                return d.opacity < 1;
              })
-             .attr('text-anchor', function (d) {
+             .attr('text-anchor', function () {
                //return d.children || d._children ? 'end' : 'start';
                return 'start';
              })
@@ -347,7 +347,7 @@ export class Diagram {
     // Transition exiting nodes to the parent's new position.
     var nodeExit = node.exit().transition()
                        .duration(duration)
-                       .attr('transform', function (d) {
+                       .attr('transform', function () {
                          return 'translate(' + source.y + ',' + source.x + ')';
                        })
                        .remove();
@@ -365,7 +365,7 @@ export class Diagram {
     // Enter any new links at the parent's previous position.
     link.enter().insert('path', 'g')
         .attr('class', 'link')
-        .attr('d', (d) => {
+        .attr('d', () => {
           var o = {
             x: source.x0,
             y: source.y0
@@ -384,7 +384,7 @@ export class Diagram {
     // Transition exiting nodes to the parent's new position.
     link.exit().transition()
         .duration(duration)
-        .attr('d', (d) => {
+        .attr('d', () => {
           var o = {
             x: source.x,
             y: source.y
@@ -409,7 +409,7 @@ export class Diagram {
   resetViewer() {
     //Firefox will choke if the viewer-page is not visible
     //TODO: fix on refactor to use pagecontainer event
-    var page = $('#viewer-page');
+    var page = angular.element('#viewer-page');
 
     page.css('display', 'block');
 
@@ -569,11 +569,11 @@ export class Diagram {
       }
     }
 
-    if (Object.prototype.toString.call(items) === '[object Object]') {
+    if (angular.isObject(items)) {
       this.compileData(items, node, 'item', false, depth + 1);
-    } else if (Object.prototype.toString.call(items) === '[object Array]') {
+    } else if (angular.isArrayitems) {
 
-      items.forEach((itm, idx, arr) => {
+      items.forEach((itm, idx) => {
         this.compileData(itm, node, idx.toString(), false, depth + 1);
       });
     }
@@ -745,7 +745,7 @@ export class Diagram {
         this.zoomClick(event);
       });
 
-      this.container.find('.tree-controls > a.reset-tree').on('click', (event) => {
+      this.container.find('.tree-controls > a.reset-tree').on('click', () => {
         this.resetViewer();
       });
 

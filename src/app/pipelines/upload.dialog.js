@@ -24,10 +24,6 @@ export class UploadDialogController {
       (response) => {
         this.$mdDialog.hide(response.data);
       },
-      (error) => {
-        // TODO: Handle error
-       // console.error(error);
-      },
       (evt) => {
         this.progress = parseInt(100.0 * evt.loaded / evt.total);
       }

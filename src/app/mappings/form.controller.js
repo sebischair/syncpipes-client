@@ -20,6 +20,12 @@ export class MappingFormController {
     this.editMode = angular.isString(this.mapping._id);
     this.files = [];
     this.loadFiles = true;
+    if(this.editMode) {
+      this.Restangular.one('services', this.mapping.extractorService).one('type').get().then((response) => {
+        this.mapping.extractorServiceType = response.type;
+        this.uploadFiles(null);
+      });
+    }
   }
 
   getSchemaUrl(serviceName, configName) {
@@ -44,7 +50,7 @@ export class MappingFormController {
   }
 
   getExtractorServiceType() {
-    this.Restangular.one('services', this.mapping.extractorService).one('type').get().then((response) => {
+    this.promise = this.Restangular.one('services', this.mapping.extractorService).one('type').get().then((response) => {
       this.mapping.extractorServiceType = response.type;
     });
   }
@@ -135,10 +141,6 @@ export class MappingFormController {
         (response) => {
           this.$mdDialog.hide(response.data);
           this.loadFiles = false;
-        },
-        (error) => {
-          // TODO: Handle error
-          // console.error(error);
         },
         (evt) => {
           this.progress = parseInt(100.0 * evt.loaded / evt.total);
