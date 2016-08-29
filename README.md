@@ -30,3 +30,7 @@ If not already executed, run the following commands:
 Invoke the default gulp task by running `gulp`.
 
 After the command has finished the production version of the application has been build. You can copy the contents of `dist/` to your web server.
+
+##Credits
+
+Special thanks to the main author of this code - Fridolin Koch, who developed it as part of his Bachlor thesis at TUM (sebis)
