@@ -8,14 +8,14 @@
 
 var gulp = require('gulp');
 var wrench = require('wrench');
-var Service = require('node-windows').Service;
+//var Service = require('node-windows').Service;
 
 // Create a new service object
-var svc = new Service({
+/*var svc = new Service({
   name:'SyncPipes Client',
   description: 'SyncPipes client as a windows service.',
   script: 'app.js'
-});
+});*/
 
 /**
  *  This will load all js or coffee files in the gulp directory
@@ -36,6 +36,7 @@ gulp.task('default', ['clean'], function () {
   gulp.start('build');
 });
 
+/*
 gulp.task('install:service', ['build'], function () {
   // Listen for the "install" event, which indicates the
   // process is available as a service.
@@ -64,3 +65,4 @@ gulp.task('uninstall:service', ['build'], function () {
   // Uninstall the service.
   svc.uninstall();
 });
+*/
